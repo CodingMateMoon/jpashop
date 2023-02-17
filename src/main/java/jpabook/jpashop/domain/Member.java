@@ -21,7 +21,7 @@ public class Member {
     @Embedded // 내장 타입 쓸 때 사용 (@Embeddable 둘 중 하나만 있어도 됐는데 알아보기 쉽게 명시해줍니다)
     private Address address;
 
-    // MemberToOrder하나의 회원이 여러 상품을 주문
-    @OneToMany
+    // MemberToOrder 하나의 회원이 여러 상품을 주문.
+    @OneToMany(mappedBy = "member") // Order 객체의 member에 매핑됩니다.
     private List<Order> orders = new ArrayList<>();
 }

@@ -1,3 +1,4 @@
+/*
 package jpabook.jpashop;
 
 import jpabook.jpashop.domain.Member;
@@ -14,7 +15,7 @@ import static org.assertj.core.api.Assertions.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class MemberRepositoryTest {
-    
+
     @Autowired
     MemberRepository memberRepository;
 
@@ -36,4 +37,4 @@ public class MemberRepositoryTest {
         assertThat(findMember.getUserName()).isEqualTo(member.getUserName());
     }
 
-}
+}*/

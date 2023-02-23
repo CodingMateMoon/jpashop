@@ -23,6 +23,10 @@ public class MemberRepository {
     private EntityManagerFactory emf;
      */
 
+    /**
+     * em.persist를 하면 영속성 컨텍스트에 member 객체를 올립니다. 영속성 컨텍스트에는 key value가 있는데 member 객체의 id값이 key가 됩니다. @GeneratedValue를 하면 id가 항상 생성되는 것이 보장돼서 영속성 컨텍스트에 해당 id가 key로 들어갑니다.
+     * @param member
+     */
     public void save(Member member) {
         em.persist(member);
     }

@@ -3,6 +3,7 @@ package jpabook.jpashop.repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jpabook.jpashop.domain.Member;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,10 +14,16 @@ import java.util.List;
  */
 
 @Repository
+@RequiredArgsConstructor
 public class MemberRepository {
 
+    /*
     @PersistenceContext
     private EntityManager em;
+     */
+    // EntityManager는 @PersistenceContext 표준 어노테이션이 있어야 injection이 되는데 스프링 부트가 injection되도록 지원해줍니다. spring data jpa가 없으면 지원하지 않습니다.
+    // 버전에 따라 스프링 부트 기본 라이브러리에서도 @Autowired로 EntityManager 주입을 지원하도록 지원합니다.
+    private final EntityManager em;
 
     /*
     @PersistenceUnit

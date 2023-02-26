@@ -3,7 +3,6 @@ package jpabook.jpashop.service;
 import jakarta.persistence.EntityManager;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.repository.MemberRepository;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

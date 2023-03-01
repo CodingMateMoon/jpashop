@@ -68,6 +68,53 @@ public class Order {
         delivery.setOrder(this);
     }
 
+    //==생성 메서드==//
+    /*
+    밖에서 Order 생성 후 set 하는게 아니라 생성할 때 createOrder를 호출합니다. 그래서 값을 setMember, setDelivery 쭉 넣어서 생성 메서드에서 완성시킵니다.
+    주문 생성에 대한 복잡한 비즈니스 로직들을 응집해놓습니다. 주문 생성 관련 로직을 수정할 때 여기만 고치면 됩니다.
+     */
+    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {
+        Order order = new Order();
+        order.setMember(member);
+        order.setDelivery(delivery);
+        //iter
+        for (OrderItem orderItem : orderItems) {
+            order.addOrderItem(orderItem);
+        }
+        order.setStatus(OrderStatus.ORDER);
+        order.setOrderDate(LocalDateTime.now());
+        return order;
+    }
+
+    //==비즈니스 로직==//
+    /**
+     * 주문 취소
+     */
+    public void cancel() {
+        if (delivery.getStatus() == DeliveryStatus.COMP) {
+            throw new IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다.");
+        }
+        this.setStatus(OrderStatus.CANCEL);
+        for (OrderItem orderItem : orderItems) {
+            orderItem.cancel();
+        }
+    }
+
+    //==조회 로직==//
+    /**
+     * 전체 주문 가격 조회
+     */
+    public int getTotalPrice() {
+        return orderItems.stream().mapToInt(OrderItem::getTotalPrice).sum();
+        /*
+        int totalPrice = 0;
+        for (OrderItem orderItem : orderItems) {
+            totalPrice += orderItem.getTotalPrice();
+        }
+        return totalPrice;
+         */
+    }
+
     /*
     public static void main(String[] args) {
         Member member = new Member();

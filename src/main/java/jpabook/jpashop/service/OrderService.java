@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -73,4 +75,36 @@ public class OrderService {
         orderRepository.save(order);
         return order.getId();
     }
+
+    /**
+     * 주문 취소 : Order.cancel
+     public void cancel() {
+         if (delivery.getStatus() == DeliveryStatus.COMP) {
+         throw new IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다.");
+         }
+         this.setStatus(OrderStatus.CANCEL);
+         for (OrderItem orderItem : orderItems) {
+            orderItem.cancel();
+         }
+     }
+
+     주문 상품 취소 : OrderItem.cancel
+     public void cancel() {
+        getItem().addStock(count);
+     }
+     JPA 강점. 평상시 mybatis, jdbtemplate 등의 경우 데이터 변경한다음 바깥에서 업데이트 쿼리를 직접날려야합니다. 아이템의 재고도 plus하는 쿼리를 날려야합니다. 서비스 계층에서 데이터 수정 및 쿼리 비즈니스 로직을 직접 다 작성해야합니다. JPA를 활용할 경우 엔티티안의 데이터를 바꿨을 때 JPA가 알아서 변경 포인트 (더티 체킹. 변경 내역 감지)를 찾아서 데이터베이스에 업데이트 쿼리를 날립니다. this.setStatus(OrderStatus.CANCEL); ==> Order 변경, orderItem.cancel(); ==> OrderItem 변경
+     */
+    @Transactional
+    public void cancelOrder(Long orderId) {
+        // 주문 엔티티 조회
+        Order order = orderRepository.findOne(orderId);
+        // 주문 취소
+        order.cancel();
+    }
+
+    /* 검색
+    public List<Order> findOrders(OrderSearch orderSearch) {
+        return orderRepository.findAll(orderSearch)
+    }
+     */
 }

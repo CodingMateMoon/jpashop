@@ -6,6 +6,7 @@ import jpabook.jpashop.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -26,5 +27,24 @@ public class MemberController {
     public String createForm(Model model) {
         model.addAttribute("memberForm", new MemberForm());
         return "members/createMemberForm";
+    }
+
+    /*
+    @Valid 사용시 MemberForm에 있는 @NotEmpty를 사용중인 것을 인지하고 validation을 적용해줍니다.
+     */
+    @PostMapping("/members/new")
+    public String create(@Valid MemberForm form, BindingResult result ) {
+
+        if (result.hasErrors()) {
+            return "members/createMemberForm";
+        }
+
+        Address address = new Address(form.getCity(), form.getStreet(), form.getZipcode());
+        Member member = new Member();
+        member.setName(form.getName());
+        member.setAddress(address);
+
+        memberService.join(member);
+        return "redirect:/";
     }
 }

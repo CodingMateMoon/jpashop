@@ -1,5 +1,6 @@
 package jpabook.jpashop.service;
 
+import jpabook.jpashop.domain.item.Book;
 import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,19 @@ public class ItemService {
     @Transactional
     public void saveItem(Item item) {
         itemRepository.save(item);
+    }
+
+    @Transactional
+    public void updateItem(Long itemId, Book param) {
+        /*
+        변경 감지 기능 사용
+        id 기반 실제 DB에 있는 영속 상태의 엔티티를 가져온 후 setter로 필드값을 설정합니다
+        itemRepository.save(findItem) 같은 함수를 호출할 필요가 없습니다. findItem 영속 상태. 값을 세팅한 후 스프링 트랜잭션 commit이 되면 JPA는 flush를 날려서 영속성 컨텍스트에 있는 엔티티 중 변경된 것이 있는지 찾은 후 변경이 감지되면 바뀐 값을 update 쿼리를 통해 DB에 반영합니다.
+         */
+        Item findItem = itemRepository.findOne(itemId);
+        findItem.setPrice(param.getPrice());
+        findItem.setName(param.getName());
+        findItem.setStockQuantity(param.getStockQuantity());
     }
 
     public List<Item> findItems() {

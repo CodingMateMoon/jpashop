@@ -63,6 +63,11 @@ public class ItemController {
     }
 
     // id가 조작돼서 넘어올 경우 다른 사람것이 수정될 수 있습니다. 이러한 취약점을 해결하기 위해 이 유저가 이 아이템에 대해 권한이 있는지 서버에서 체크하는 로직, 업데이트할 객체를 세션에 담아두고 풀어내는 방법 등이 있습니다.
+    /*
+    updateItemForm에서 데이터 입력 후 submit. new를 통해 새로 생성한 객체에 id 세팅된 것. JPA에 한번 들어갔다 나온 객체. 식별자가 있는 경우 준영속 상태의 객체라고 합니다.
+    데이터베이스 한번 저장된 후 가져온 것이라 JPA가 식별할 수 있는 ID를 가지고 있고 영속성 컨텍스트가 더는 관리하지 않는 준영속 엔티티입니다.
+    JPA가 관리하는 영속 상태 엔티티는 뭐가 변경되었는지 JPA가 보다가 변경 감지가 일어나지만 준영속 엔티티는 JPA가 관리하지 않아서 Book을 바꿔도 DB에 변경이 일어나지 않습니다. JPA가 관리하지 않아서 업데이트를 할 수 있는 근거 자체가 없습니다.
+     */
     @PostMapping("items/{itemId}/edit")
     public String updateItem(@PathVariable String itemId, @ModelAttribute("form") BookForm form) {
         Book book= new Book();

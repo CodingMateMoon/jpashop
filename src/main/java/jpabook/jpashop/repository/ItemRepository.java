@@ -20,7 +20,22 @@ public class ItemRepository {
              */
             em.persist(item);
         } else {
-            em.merge(item);
+            // id 값이 있을 경우 merge
+            /* merge : DB에서 item을 가져온 뒤 set으로 값 설정하고 해당 item을 return하는 구조
+            @Transactional
+            public Item updateItem(Long itemId, Book param) {
+
+
+                Item findItem = itemRepository.findOne(itemId);
+                findItem.setPrice(param.getPrice());
+                findItem.setName(param.getName());
+                findItem.setStockQuantity(param.getStockQuantity());
+                return findItem;
+            }
+            Item merge = em.merge(item);
+            Item merge의 경우 병합이 돼서 영속성 컨테이너에서 관리하는 객체. 추가 작업이 필요한 경우 merge 객체로 작업
+             */
+            Item merge = em.merge(item);
         }
     }
 

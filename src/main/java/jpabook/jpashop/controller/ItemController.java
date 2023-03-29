@@ -69,7 +69,8 @@ public class ItemController {
     JPA가 관리하는 영속 상태 엔티티는 뭐가 변경되었는지 JPA가 보다가 변경 감지가 일어나지만 준영속 엔티티는 JPA가 관리하지 않아서 Book을 바꿔도 DB에 변경이 일어나지 않습니다. JPA가 관리하지 않아서 업데이트를 할 수 있는 근거 자체가 없습니다.
      */
     @PostMapping("items/{itemId}/edit")
-    public String updateItem(@PathVariable String itemId, @ModelAttribute("form") BookForm form) {
+    public String updateItem(@PathVariable Long itemId, @ModelAttribute("form") BookForm form) {
+        /*
         Book book= new Book();
         book.setId(form.getId());
         book.setName(form.getName());
@@ -79,6 +80,9 @@ public class ItemController {
         book.setIsbn(form.getIsbn());
 
         itemService.saveItem(book);
+        어설프게 엔티티를 파라미터로 쓰기보다 필요한 데이터만 받도록 수정합니다. 업데이트할 데이터가 많을 경우 서비스 계층의 DTO를 하나 만듭니다.
+        */
+        itemService.updateItem(itemId, form.getName(), form.getPrice(), form.getStockQuantity());
         return "redirect:/items";
     }
 }
